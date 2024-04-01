@@ -6,10 +6,18 @@ import { useEffect } from 'react';
 import { getProducts } from '../../Redux/Product/actions';
 import { addCartItem } from '../../Redux/Cart/cartSlice';
 import { Link } from 'react-router-dom';
-const Products=()=>{
+const Products=({sortData})=>{
 
     let productData= useSelector(state=>state.productReducer.products);
-    let sortedProductsData = productData.slice().sort((a,b)=> a?.product_name.localeCompare(b?.product_name));
+    //let sortedProductsData = productData.slice().sort((a,b)=> a?.product_name.localeCompare(b?.product_name));
+    let sortedProductsData = [];
+
+    if(sortData === 'name'){
+       sortedProductsData = productData.slice().sort((a,b)=> a?.product_name.localeCompare(b?.product_name));
+    } else if(sortData === 'price'){
+      sortedProductsData = productData.slice().sort((a,b)=> a?.price-b?.price);
+    }
+
     let cartData=useSelector(state=>state.cartReducer)
     console.log(cartData);
     let dispatch= useDispatch();
